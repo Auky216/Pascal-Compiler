@@ -1,25 +1,48 @@
-# Simulador de Compilador Pascal
-Descripción: Este proyecto es un simulador de compilador en línea para el lenguaje de programación Pascal, diseñado para proporcionar una experiencia de compilación y ejecución interactiva a los estudiantes de programación. Permite a los usuarios escribir, compilar y ejecutar código Pascal directamente desde un navegador web, sin la necesidad de configurar herramientas adicionales en su máquina local.
+# Simulador de compilador Pascal
 
-Objetivo: El simulador tiene como propósito principal ayudar a los estudiantes a comprender mejor el proceso de compilación de un código Pascal, la ejecución del programa y el análisis de errores. Además, permite ver cómo el código se traduce en una representación de bajo nivel y obtener detalles sobre la pila de ejecución.
+Proyecto académico para escribir programas Pascal en una interfaz web y observar la salida del compilador y de la máquina virtual. El frontend usa Next.js y Monaco Editor; el backend usa Flask y ejecuta los programas generados por el compilador C++ de este repositorio.
 
-## Características:
-Interfaz Web Intuitiva: Utiliza React y Monaco Editor para ofrecer una experiencia de escritura de código Pascal en un entorno amigable.
-Compilación y Ejecución en Tiempo Real: El código Pascal se envía a un servidor backend (Flask) que lo compila y ejecuta. El resultado se muestra inmediatamente en la interfaz.
-Visualización de Salida SM y Pila: Después de la ejecución, se muestran dos archivos de salida importantes: la salida SM (máquina virtual) y el contenido de la pila de ejecución, que ayudan a los estudiantes a entender cómo se maneja la memoria durante la ejecución del programa.
-Mensajes de Error: Si el código tiene errores, se devuelve un mensaje detallado que describe el problema, lo que permite a los estudiantes aprender de sus errores y corregir el código.
-Soporte para Ciclos y Funciones: El simulador soporta estructuras comunes de Pascal como ciclos for, if, y llamadas a funciones, con capacidad para ejecutar programas con múltiples bloques de código anidados.
-Tecnologías Utilizadas:
-Frontend:
+![Vista del simulador](preview.png)
 
-React: Para crear una interfaz interactiva y reactiva.
-Monaco Editor: Un editor de código que permite a los usuarios escribir código Pascal con características como autocompletado, resaltado de sintaxis y más.
-CSS (Flexbox y Grid): Para el diseño de la interfaz.
-Backend:
+## Estructura
 
-Flask: Un micro-framework de Python para manejar las peticiones HTTP, gestionar la compilación del código y la ejecución de los programas Pascal.
-Subprocess: Para ejecutar los comandos de compilación y ejecución en el servidor, que llaman al compilador de C++ para transformar el código Pascal en código ejecutable.
-Lenguaje de Programación:
+- `frontend/`: interfaz web.
+- `backend/app.py`: API local con los endpoints `POST /compile` y `GET /stack`.
+- `compiler/`: compilador, máquina virtual y entradas de ejemplo.
 
-Pascal: El lenguaje objetivo que se compila y ejecuta en el simulador.
-![Descripción de la imagen](./Screenshot%202024-11-30%20054256.png)
+## Requisitos
+
+- Node.js y npm compatibles con `frontend/package.json`
+- Python 3 y los paquetes `Flask` y `Flask-Cors`
+- `g++` disponible en el PATH
+
+## Uso local
+
+En una terminal, instala las dependencias de Python y levanta la API:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r backend/requirements.txt
+python backend/app.py
+```
+
+En otra terminal:
+
+```bash
+cd frontend
+npm ci
+npm run dev
+```
+
+Abre la dirección local indicada por Next.js. El backend usa por defecto `http://127.0.0.1:5000`.
+
+## Estado y limitaciones
+
+Este repositorio es una demostración académica. El backend compila y ejecuta código proporcionado por el usuario en el mismo equipo y comparte archivos temporales entre solicitudes. **No lo expongas a Internet ni lo uses con código no confiable** sin aislamiento, límites de recursos y manejo seguro de solicitudes concurrentes. Algunas órdenes de ejecución en `backend/app.py` asumen Windows; en macOS/Linux puede requerirse ajustar la invocación del ejecutable generado.
+
+El proyecto conserva artefactos compilados y salidas de ejemplo del trabajo original. La [`.gitignore`](.gitignore) evita agregar nuevos archivos de compilación y entornos locales.
+
+## Contribuir
+
+Incluye pasos para reproducir el cambio y una prueba manual o automatizada. Las correcciones de aislamiento y concurrencia son prioritarias antes de cualquier despliegue público. No se ha definido una licencia de reutilización del código del equipo.
